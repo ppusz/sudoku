@@ -64,6 +64,29 @@ public class Board extends Prototype<Board> {
         return cells[row][column].getAvailableValues();
     }
 
+    public boolean isSolved() {
+        boolean result = true;
+        for (int r = Board.MIN_INDEX; r <= Board.MAX_INDEX; r++) {
+            for (int c = Board.MIN_INDEX; c <= Board.MAX_INDEX; c++) {
+                if (getCellValue(r, c) == null) {
+                    return false;
+                }
+            }
+        }
+        return result;
+    }
+
+    public Coordinates findEmptyCell() {
+        for (int r = Board.MIN_INDEX; r <= Board.MAX_INDEX; r++) {
+            for (int c = Board.MIN_INDEX; c <= Board.MAX_INDEX; c++) {
+                if (getCellValue(r, c) == null) {
+                    return new Coordinates(r, c);
+                }
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -77,7 +100,9 @@ public class Board extends Prototype<Board> {
                 }
                 sb.append(cells[i][j]);
             }
-            sb.append("\n");
+            if (i < MAX_INDEX) {
+                sb.append("\n");
+            }
         }
         return sb.toString();
     }

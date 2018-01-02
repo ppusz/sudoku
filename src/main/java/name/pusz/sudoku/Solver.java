@@ -1,6 +1,8 @@
 package name.pusz.sudoku;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Solver {
@@ -11,21 +13,68 @@ public class Solver {
         this.board = board;
     }
 
-    public Board solve() throws CannotSolveException {
-        boolean progress;
+    public List<Board> solve() throws CannotSolveException {
+        List<Board> solutions = new ArrayList<>();
 
-        do {
-            progress = false;
-            progress = solveCellsHavingOneAvailableValue();
-            progress = progress || solveRows();
-            progress = progress || solveColumns();
-            progress = progress || solveSections();
-        } while (progress);
+        solveEvident(this.board);
+        if (board.isSolved()) {
+            System.out.println("Found solution :)");
+            System.out.println(board);
+            solutions.add(board);
+        } else {
+            Board backtrackBoard;
+            Coordinates emptyCellCoordinates = board.findEmptyCell();
+            if (emptyCellCoordinates != null) {
+                for (Integer guessValue : board.getCellAvailableValues(emptyCellCoordinates.getRow(), emptyCellCoordinates.getColumn())) {
+                    System.out.println("Guessing " + guessValue + " on " + emptyCellCoordinates);
+                    try {
+                        backtrackBoard = board;
+                        board = board.copy();
 
-        return new Board();
+                        try {
+                            board.setValueToCell(emptyCellCoordinates.getRow(), emptyCellCoordinates.getColumn(), guessValue);
+                        } catch (InvalidValueException e)
+                        {
+                            System.out.println("This should never happen during guessing. " + e);
+                        }
+
+                        Solver solver = new Solver(board);
+
+                        try {
+                            List<Board> foundSolutions = solver.solve();
+                            solutions.addAll(foundSolutions);
+                            System.out.println("Solutions found: " + foundSolutions.size());
+                        } catch (CannotSolveException e) {
+                            System.out.println("No solution found.");
+                        }
+
+                        board = backtrackBoard;
+                    } catch (CloneNotSupportedException e) {
+                        System.out.println(e);
+                    }
+                }
+            } else {
+                throw new CannotSolveException("No empty cells found!");
+            }
+        }
+
+        return solutions;
     }
 
-    public boolean solveCellsHavingOneAvailableValue() throws CannotSolveException {
+    public Board solveEvident(Board board) throws CannotSolveException {
+        boolean progress;
+        do {
+            progress = false;
+            progress = solveCellsHavingOneAvailableValue(board);
+            progress = progress || solveRows(board);
+            progress = progress || solveColumns(board);
+            progress = progress || solveSections(board);
+        } while (progress);
+
+        return board;
+    }
+
+    public boolean solveCellsHavingOneAvailableValue(Board board) throws CannotSolveException {
         boolean solvedAnything = false;
         for (int r = Board.MIN_INDEX; r <= Board.MAX_INDEX; r++) {
             for (int c = Board.MIN_INDEX; c <= Board.MAX_INDEX; c++) {
@@ -48,7 +97,7 @@ public class Solver {
         return solvedAnything;
     }
 
-    public boolean solveRows() {
+    public boolean solveRows(Board board) {
         boolean solvedAnything = false;
         Set<Integer> examinedValues;
         for (int r = Board.MIN_INDEX; r <= Board.MAX_INDEX; r++) {
@@ -80,7 +129,7 @@ public class Solver {
         return solvedAnything;
     }
 
-    public boolean solveColumns() {
+    public boolean solveColumns(Board board) {
         boolean solvedAnything = false;
         Set<Integer> examinedValues;
         for (int c = Board.MIN_INDEX; c <= Board.MAX_INDEX; c++) {
@@ -112,7 +161,7 @@ public class Solver {
         return solvedAnything;
     }
 
-    public boolean solveSections() {
+    public boolean solveSections(Board board) {
         boolean solvedAnything = false;
         Set<Integer> examinedValues;
         for (int sectionRow = Board.MIN_INDEX; sectionRow <= Board.MAX_INDEX / 3; sectionRow++) {
@@ -151,33 +200,5 @@ public class Solver {
         }
         return solvedAnything;
     }
-
-//    private Integer searchForOnlyPossibleCellSolution(int row, int column) throws CannotSolveException {
-//        if (board.getCellValue(row, column) == null) {
-//            int availableValuesCount = board.getCellAvailableValues(row, column).size();
-//            if (availableValuesCount == 0) {
-//                throw new CannotSolveException();
-//            }  else if (availableValuesCount == 1) {
-//                try {
-//                    board.setValueToCell(row, column,
-//                            board.getCellAvailableValues(row, column).iterator().next());
-//                } catch (InvalidValueException e) {
-//                    System.err.println("Ups, this should never happen. " + e);
-//                }
-//            } else {
-//                for (Integer value : board.getCellAvailableValues(row, column)) {
-//                    // checking row
-//
-//                    //checking column
-//
-//                    //checking section
-//
-//                }
-//
-//            }
-//        }
-//    }
-
-    //private Integer searchForOnlyPossibleCellSolution (row, column)
 
 }

@@ -22,7 +22,7 @@ public class SolverTestSuite {
         board.getCells()[4][4].getAvailableValues().add(5);
 
         //When
-        boolean solved =  solver.solveCellsHavingOneAvailableValue();
+        boolean solved =  solver.solveCellsHavingOneAvailableValue(board);
         System.out.println(board);
 
         //Then
@@ -48,7 +48,7 @@ public class SolverTestSuite {
         board.getCells()[row][8].removeAvailableValue(4);
 
         //When
-        boolean solved =  solver.solveRows();
+        boolean solved =  solver.solveRows(board);
         System.out.println(board);
 
         //Then
@@ -74,7 +74,7 @@ public class SolverTestSuite {
         board.getCells()[8][column].removeAvailableValue(4);
 
         //When
-        boolean solved =  solver.solveColumns();
+        boolean solved =  solver.solveColumns(board);
         System.out.println(board);
 
         //Then
@@ -99,10 +99,10 @@ public class SolverTestSuite {
         board.getCells()[5][5].removeAvailableValue(4);
 
         //When
-        boolean solved =  solver.solveSections();
+        boolean solved =  solver.solveSections(board);
         System.out.println(board);
         board.getCells()[5][5].removeAvailableValue(3);
-        solver.solveSections();
+        solver.solveSections(board);
         System.out.println(board);
 
         //Then
@@ -147,7 +147,10 @@ public class SolverTestSuite {
         System.out.println(board);
 
         //Then
-        solver.solve();
-        System.out.println(board);
+        System.out.println("In total found " + solver.solve().size() + " solution(s).");
+
+        //System.out.println(board);
+        //System.out.println(solver.isSolved(board));
+
     }
 }
