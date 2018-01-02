@@ -18,7 +18,7 @@ public class Solver {
 
         solveEvident(this.board);
         if (board.isSolved()) {
-            System.out.println("Found solution :)");
+            System.out.println("Found solution:");
             System.out.println(board);
             solutions.add(board);
         } else {
@@ -26,7 +26,7 @@ public class Solver {
             Coordinates emptyCellCoordinates = board.findEmptyCell();
             if (emptyCellCoordinates != null) {
                 for (Integer guessValue : board.getCellAvailableValues(emptyCellCoordinates.getRow(), emptyCellCoordinates.getColumn())) {
-                    System.out.println("Guessing " + guessValue + " on " + emptyCellCoordinates);
+                    //System.out.println("Guessing " + guessValue + " on " + emptyCellCoordinates);
                     try {
                         backtrackBoard = board;
                         board = board.copy();
@@ -43,9 +43,9 @@ public class Solver {
                         try {
                             List<Board> foundSolutions = solver.solve();
                             solutions.addAll(foundSolutions);
-                            System.out.println("Solutions found: " + foundSolutions.size());
+                            //System.out.println("Solutions found: " + foundSolutions.size());
                         } catch (CannotSolveException e) {
-                            System.out.println("No solution found.");
+                            //System.out.println("No solution found.");
                         }
 
                         board = backtrackBoard;

@@ -13,7 +13,7 @@ public class SudokuEntriesReader {
 
         entry = entry.replaceAll("\\s+", "");
         if (entry.length() % 6 != 5) {
-            throw new InvalidValueException("Wrong entry structure.");
+            throw new InvalidValueException("Wrong entry.");
         }
 
         for (int i = 4; i < entry.length(); i = i + 6) {
