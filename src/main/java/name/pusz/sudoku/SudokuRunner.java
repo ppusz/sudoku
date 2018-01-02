@@ -1,15 +1,17 @@
 package name.pusz.sudoku;
 
+import name.pusz.sudoku.game.SudokuGameProcessor;
+
 public class SudokuRunner {
 
     public static void main(String[] args) {
 
-        SudokuGame theGame;
+        SudokuGameProcessor gameProcessor;
         boolean gameFinished = false;
-        System.out.println(SudokuGame.WELCOME_MESSAGE);
+        System.out.println(SudokuGameProcessor.WELCOME_MESSAGE);
         while (!gameFinished ) {
-            theGame = new SudokuGame();
-            gameFinished = !theGame.resolveSudoku();
+            gameProcessor = new SudokuGameProcessor();
+            gameFinished = !gameProcessor.resolveSudoku();
         }
     }
 }
