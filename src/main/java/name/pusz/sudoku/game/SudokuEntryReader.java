@@ -9,6 +9,8 @@ import java.util.Map;
 
 public class SudokuEntryReader {
 
+    private static final int coordinatesAndValueEntryLenght = 6;
+
     public Map<Coordinates, Integer> read(String entry) throws InvalidCoordinatesException, InvalidValueException {
         Map<Coordinates, Integer> readEntries = new HashMap<>();
         int row;
@@ -16,11 +18,11 @@ public class SudokuEntryReader {
         int value;
 
         entry = entry.replaceAll("\\s+", "");
-        if (entry.length() % 6 != 5) {
+        if (entry.length() % coordinatesAndValueEntryLenght != 5) {
             throw new InvalidValueException("Wrong entry.");
         }
 
-        for (int i = 4; i < entry.length(); i = i + 6) {
+        for (int i = coordinatesAndValueEntryLenght - 2; i < entry.length(); i = i + coordinatesAndValueEntryLenght) {
             if (i > 4) {
                 readComma(entry.substring(i - 5, i - 4));
             }
@@ -36,17 +38,15 @@ public class SudokuEntryReader {
     }
 
     private int readCoordinate(String coordinate) throws InvalidCoordinatesException {
-        int result;
         try {
-            result = Integer.valueOf(coordinate);
+            int result = Integer.valueOf(coordinate);
             if (result < 1 || result > 9) {
                 throw new InvalidCoordinatesException("Invalid coordinate: " + coordinate);
             }
+            return result;
         } catch (NumberFormatException e) {
             throw new InvalidCoordinatesException("Invalid coordinate: " + coordinate);
         }
-
-        return result;
     }
 
     private void readComma(String comma) throws InvalidValueException {
@@ -56,16 +56,14 @@ public class SudokuEntryReader {
     }
 
     private int readValue(String value) throws InvalidValueException {
-        int result;
         try {
-            result = Integer.valueOf(value);
+            int result = Integer.valueOf(value);
             if (result < 1 || result > 9) {
                 throw new InvalidValueException("Invalid value: " + value);
             }
+            return result;
         } catch (NumberFormatException e) {
             throw new InvalidValueException("Invalid value: " + value);
         }
-
-        return result;
     }
 }
