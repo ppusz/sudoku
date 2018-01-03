@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Map;
+
 public class BoardTestSuite {
 
     private Board board;
@@ -76,5 +78,32 @@ public class BoardTestSuite {
             Assert.assertFalse(board.getCells()[3][i].getAvailableValues().contains(5));
             Assert.assertFalse(board.getCells()[i][4].getAvailableValues().contains(5));
         }
+    }
+
+    @Test
+    public void testGetCellsInRow() {
+        //When
+        CellWithCoordinates[] cellsWithCoordinates = board.getCellsInRow(0);
+
+        //Then
+        Assert.assertEquals(Board.MAX_INDEX + 1, cellsWithCoordinates.length);
+    }
+
+    @Test
+    public void testGetCellsInColumn() {
+        //When
+        CellWithCoordinates[] cellsWithCoordinates = board.getCellsInColumn(0);
+
+        //Then
+        Assert.assertEquals(Board.MAX_INDEX + 1, cellsWithCoordinates.length);
+    }
+
+    @Test
+    public void testGetCellsInSection() {
+        //When
+        CellWithCoordinates[] cellsWithCoordinates = board.getCellsInSection(0, 0);
+
+        //Then
+        Assert.assertEquals(Board.MAX_INDEX + 1, cellsWithCoordinates.length);
     }
 }

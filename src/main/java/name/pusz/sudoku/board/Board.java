@@ -1,5 +1,7 @@
 package name.pusz.sudoku.board;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class Board extends Prototype<Board> {
@@ -102,5 +104,32 @@ public class Board extends Prototype<Board> {
             }
         }
         return sb.toString();
+    }
+
+    public CellWithCoordinates[] getCellsInRow(int rowIndex) {
+        CellWithCoordinates[] cellsWithCoordinates = new CellWithCoordinates[MAX_INDEX + 1];
+        for (int i = MIN_INDEX; i <= MAX_INDEX; i++) {
+            cellsWithCoordinates[i] = new CellWithCoordinates(cells[rowIndex][i], new Coordinates(rowIndex, i));
+        }
+        return cellsWithCoordinates;
+    }
+
+    public CellWithCoordinates[] getCellsInColumn(int columnIndex) {
+        CellWithCoordinates[] cellsWithCoordinates = new CellWithCoordinates[MAX_INDEX + 1];
+        for (int i = MIN_INDEX; i <= MAX_INDEX; i++) {
+            cellsWithCoordinates[i] = new CellWithCoordinates(cells[i][columnIndex], new Coordinates(i, columnIndex));
+        }
+        return cellsWithCoordinates;
+    }
+
+    public CellWithCoordinates[] getCellsInSection(int rowSectionIndex, int columnSectionIndex) {
+        CellWithCoordinates[] cellsWithCoordinates = new CellWithCoordinates[MAX_INDEX + 1];
+        int i = 0;
+        for (int row = rowSectionIndex * 3; row < rowSectionIndex * 3 + 3; row++) {
+            for (int column = columnSectionIndex * 3; column < columnSectionIndex * 3 + 3; column++) {
+                cellsWithCoordinates[i++] = new CellWithCoordinates(cells[row][column], new Coordinates(row, column));
+            }
+        }
+        return cellsWithCoordinates;
     }
 }

@@ -60,7 +60,7 @@ public class SudokuGameProcessor {
         String answer;
 
         while (!answered) {
-            System.out.print("Another game? (Y)es/(N)o ");
+            System.out.print("Another sudoku? (Y)es/(N)o ");
             answer = scanner.nextLine().trim().toLowerCase();
             if (answer.equals("yes") || answer.equals("y")) {
                 result = true;
