@@ -1,10 +1,19 @@
 package name.pusz.sudoku.solver;
 
-import name.pusz.sudoku.board.*;
+import name.pusz.sudoku.board.Board;
+import name.pusz.sudoku.board.CellWithCoordinates;
+import name.pusz.sudoku.board.Coordinates;
+import name.pusz.sudoku.exception.CannotSolveException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class Solver {
+
+    private final static String SOLUTION_FOUND = "Found solution:";
+    private final static String NO_EMTY_CELLS_FOUND = "No empty cells found!";
 
     private Board board;
 
@@ -17,8 +26,8 @@ public class Solver {
 
         solveEvident(this.board);
         if (board.isSolved()) {
-            System.out.println("Found solution:");
-            System.out.println(board);
+            System.out.println(SOLUTION_FOUND);
+            System.out.println(board.getPrintForm());
             solutions.add(board);
         } else {
             Board backtrackBoard;
@@ -35,7 +44,8 @@ public class Solver {
                         try {
                             List<Board> foundSolutions = solver.solve();
                             solutions.addAll(foundSolutions);
-                        } catch (CannotSolveException e) {}
+                        } catch (CannotSolveException e) {
+                        }
 
                         board = backtrackBoard;
                     } catch (CloneNotSupportedException e) {
@@ -43,7 +53,7 @@ public class Solver {
                     }
                 }
             } else {
-                throw new CannotSolveException("No empty cells found!");
+                throw new CannotSolveException(NO_EMTY_CELLS_FOUND);
             }
         }
 

@@ -17,7 +17,7 @@ public class BoardValidatorTestSuite {
         board.getCells()[8][7].setValue(4);
         board.getCells()[6][6].setValue(9);
         board.getCells()[7][8].setValue(6);
-        System.out.println(board);
+        System.out.println(board.getPrintForm());
     }
 
     @Test
@@ -26,12 +26,12 @@ public class BoardValidatorTestSuite {
         BoardValidator validator = new BoardValidator(board);
 
         //When
-        boolean check1 = validator.checkValueSuit(0, 4,5);
-        boolean check2 = validator.checkValueSuit(8, 0,4);
-        boolean check3 = validator.checkValueSuit(3, 7,5);
-        boolean check4 = validator.checkValueSuit(3, 7,3);
-        boolean check5 = validator.checkValueSuit(8, 8,5);
-        boolean check6 = validator.checkValueSuit(8, 8,6);
+        boolean check1 = validator.checkValueSuit(0, 4, 5);
+        boolean check2 = validator.checkValueSuit(8, 0, 4);
+        boolean check3 = validator.checkValueSuit(3, 7, 5);
+        boolean check4 = validator.checkValueSuit(3, 7, 3);
+        boolean check5 = validator.checkValueSuit(8, 8, 5);
+        boolean check6 = validator.checkValueSuit(8, 8, 6);
 
         //Then
         Assert.assertTrue(check1);

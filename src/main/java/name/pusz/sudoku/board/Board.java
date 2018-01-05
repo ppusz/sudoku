@@ -1,7 +1,8 @@
 package name.pusz.sudoku.board;
 
-import java.util.HashMap;
-import java.util.Map;
+import name.pusz.sudoku.exception.InvalidCoordinatesException;
+import name.pusz.sudoku.exception.InvalidValueException;
+
 import java.util.Set;
 
 public class Board extends Prototype<Board> {
@@ -33,7 +34,7 @@ public class Board extends Prototype<Board> {
         return clonedBoard;
     }
 
-    public boolean setValueToCell (int row, int column, int value) throws InvalidCoordinatesException, InvalidValueException {
+    public boolean setValueToCell(int row, int column, int value) throws InvalidCoordinatesException, InvalidValueException {
         BoardValidator validator = new BoardValidator(this);
         if (validator.checkValueSuit(row, column, value)) {
             cells[row][column].setValue(value);
@@ -49,9 +50,9 @@ public class Board extends Prototype<Board> {
                 cells[i][column].removeAvailableValue(value);
             }
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public Integer getCellValue(int row, int column) throws InvalidCoordinatesException {
@@ -86,8 +87,7 @@ public class Board extends Prototype<Board> {
         return null;
     }
 
-    @Override
-    public String toString() {
+    public String getPrintForm() {
         StringBuilder sb = new StringBuilder();
         for (int i = MIN_INDEX; i <= MAX_INDEX; i++) {
             if (i % 3 == 0 && i > 0) {

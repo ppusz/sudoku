@@ -23,8 +23,8 @@ public class SolverTestSuite {
         board.getCells()[4][4].getAvailableValues().add(5);
 
         //When
-        boolean solved =  solver.solveCellsHavingOneAvailableValue(board);
-        System.out.println(board);
+        boolean solved = solver.solveCellsHavingOneAvailableValue(board);
+        System.out.println(board.getPrintForm());
 
         //Then
         Assert.assertTrue(solved);
@@ -35,13 +35,13 @@ public class SolverTestSuite {
     public void testSolveRows() {
         //Given
         int row = 4;
-        board.setValueToCell(row,0, 1);
-        board.setValueToCell(row,1, 2);
-        board.setValueToCell(row,4, 5);
-        board.setValueToCell(row,5, 6);
-        board.setValueToCell(row,6, 7);
-        board.setValueToCell(row,7, 8);
-        System.out.println(board);
+        board.setValueToCell(row, 0, 1);
+        board.setValueToCell(row, 1, 2);
+        board.setValueToCell(row, 4, 5);
+        board.setValueToCell(row, 5, 6);
+        board.setValueToCell(row, 6, 7);
+        board.setValueToCell(row, 7, 8);
+        System.out.println(board.getPrintForm());
 
         board.getCells()[row][2].removeAvailableValue(4);
         board.getCells()[row][3].removeAvailableValue(3);
@@ -49,8 +49,8 @@ public class SolverTestSuite {
         board.getCells()[row][8].removeAvailableValue(4);
 
         //When
-        boolean solved =  solver.solveRows(board);
-        System.out.println(board);
+        boolean solved = solver.solveRows(board);
+        System.out.println(board.getPrintForm());
 
         //Then
         Assert.assertTrue(solved);
@@ -61,13 +61,13 @@ public class SolverTestSuite {
     public void testSolveColumns() {
         //Given
         int column = 3;
-        board.setValueToCell(0, column,1);
-        board.setValueToCell(1, column,2);
-        board.setValueToCell(4, column,5);
-        board.setValueToCell(5, column,6);
-        board.setValueToCell(6, column,7);
-        board.setValueToCell(7, column,8);
-        System.out.println(board);
+        board.setValueToCell(0, column, 1);
+        board.setValueToCell(1, column, 2);
+        board.setValueToCell(4, column, 5);
+        board.setValueToCell(5, column, 6);
+        board.setValueToCell(6, column, 7);
+        board.setValueToCell(7, column, 8);
+        System.out.println(board.getPrintForm());
 
         board.getCells()[2][column].removeAvailableValue(4);
         board.getCells()[3][column].removeAvailableValue(3);
@@ -75,8 +75,8 @@ public class SolverTestSuite {
         board.getCells()[8][column].removeAvailableValue(4);
 
         //When
-        boolean solved =  solver.solveColumns(board);
-        System.out.println(board);
+        boolean solved = solver.solveColumns(board);
+        System.out.println(board.getPrintForm());
 
         //Then
         Assert.assertTrue(solved);
@@ -86,13 +86,13 @@ public class SolverTestSuite {
     @Test
     public void testSolveSections() {
         //Given
-        board.setValueToCell(3, 3,1);
-        board.setValueToCell(3, 4,2);
-        board.setValueToCell(4, 4,5);
-        board.setValueToCell(4, 5,6);
-        board.setValueToCell(5, 3,7);
-        board.setValueToCell(5, 4,8);
-        System.out.println(board);
+        board.setValueToCell(3, 3, 1);
+        board.setValueToCell(3, 4, 2);
+        board.setValueToCell(4, 4, 5);
+        board.setValueToCell(4, 5, 6);
+        board.setValueToCell(5, 3, 7);
+        board.setValueToCell(5, 4, 8);
+        System.out.println(board.getPrintForm());
 
         board.getCells()[3][5].removeAvailableValue(4);
         board.getCells()[4][3].removeAvailableValue(3);
@@ -100,11 +100,11 @@ public class SolverTestSuite {
         board.getCells()[5][5].removeAvailableValue(4);
 
         //When
-        boolean solved =  solver.solveSections(board);
-        System.out.println(board);
+        boolean solved = solver.solveSections(board);
+        System.out.println(board.getPrintForm());
         board.getCells()[5][5].removeAvailableValue(3);
         solver.solveSections(board);
-        System.out.println(board);
+        System.out.println(board.getPrintForm());
 
         //Then
         Assert.assertTrue(solved);
@@ -145,7 +145,7 @@ public class SolverTestSuite {
         board.setValueToCell(8, 3, 9);
         board.setValueToCell(8, 5, 7);
         board.setValueToCell(8, 7, 6);
-        System.out.println(board);
+        System.out.println(board.getPrintForm());
 
         //Then
         System.out.println("In total found " + solver.solve().size() + " solution(s).");

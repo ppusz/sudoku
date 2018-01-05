@@ -5,7 +5,7 @@ public class CellWithCoordinates {
     private final Cell cell;
     private final Coordinates coordinates;
 
-    public CellWithCoordinates(Cell cell, Coordinates coordinates) {
+    CellWithCoordinates(Cell cell, Coordinates coordinates) {
         this.cell = cell;
         this.coordinates = coordinates;
     }

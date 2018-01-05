@@ -1,17 +1,19 @@
 package name.pusz.sudoku.board;
 
+import name.pusz.sudoku.exception.InvalidValueException;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Cell extends Prototype<Cell> {
 
-    private Integer value;
-    private Set<Integer> availableValues;
+    private final static String VALUE = "Value ";
+    private final static String NOT_POSSIBLE = " it's not possible here.";
 
-    public Cell() {
-        availableValues = new HashSet<>(Arrays.asList(new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9}));
-    }
+
+    private Integer value;
+    private Set<Integer> availableValues = new HashSet<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
 
     public Integer getValue() {
         return value;
@@ -26,7 +28,7 @@ public class Cell extends Prototype<Cell> {
             this.value = value;
             availableValues.clear();
         } else {
-            throw new InvalidValueException("Value " + value + " it's not possible here.");
+            throw new InvalidValueException(VALUE + value + NOT_POSSIBLE);
         }
     }
 
@@ -36,10 +38,7 @@ public class Cell extends Prototype<Cell> {
 
     public Cell copy() throws CloneNotSupportedException {
         Cell clonedCell = super.clone();
-        clonedCell.availableValues = new HashSet<>();
-        for (Integer i : this.availableValues) {
-            clonedCell.availableValues.add(i);
-        }
+        clonedCell.availableValues = new HashSet<>(availableValues);
         return clonedCell;
     }
 

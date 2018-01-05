@@ -1,4 +1,4 @@
-package name.pusz.sudoku.solver;
+package name.pusz.sudoku.exception;
 
 public class CannotSolveException extends RuntimeException {
 

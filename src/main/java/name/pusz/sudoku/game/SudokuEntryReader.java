@@ -1,15 +1,19 @@
 package name.pusz.sudoku.game;
 
 import name.pusz.sudoku.board.Coordinates;
-import name.pusz.sudoku.board.InvalidCoordinatesException;
-import name.pusz.sudoku.board.InvalidValueException;
+import name.pusz.sudoku.exception.InvalidCoordinatesException;
+import name.pusz.sudoku.exception.InvalidValueException;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class SudokuEntryReader {
 
-    private static final int coordinatesAndValueEntryLenght = 6;
+    private static final int COORDINATES_AND_VALUE_ENTRY_LENGTH = 6;
+    private static final String WRONG_ENTRY = "Wrong entry.";
+    private static final String INVALID_COORDINATE = "Invalid coordinate: ";
+    private static final String INVALID_VALUE = "Invalid value: ";
+    private static final String NOT_COMMA = " is not a comma.";
 
     public Map<Coordinates, Integer> read(String entry) throws InvalidCoordinatesException, InvalidValueException {
         Map<Coordinates, Integer> readEntries = new HashMap<>();
@@ -18,11 +22,11 @@ public class SudokuEntryReader {
         int value;
 
         entry = entry.replaceAll("\\s+", "");
-        if (entry.length() % coordinatesAndValueEntryLenght != 5) {
-            throw new InvalidValueException("Wrong entry.");
+        if (entry.length() % COORDINATES_AND_VALUE_ENTRY_LENGTH != 5) {
+            throw new InvalidValueException(WRONG_ENTRY);
         }
 
-        for (int i = coordinatesAndValueEntryLenght - 2; i < entry.length(); i = i + coordinatesAndValueEntryLenght) {
+        for (int i = COORDINATES_AND_VALUE_ENTRY_LENGTH - 2; i < entry.length(); i = i + COORDINATES_AND_VALUE_ENTRY_LENGTH) {
             if (i > 4) {
                 readComma(entry.substring(i - 5, i - 4));
             }
@@ -41,17 +45,17 @@ public class SudokuEntryReader {
         try {
             int result = Integer.valueOf(coordinate);
             if (result < 1 || result > 9) {
-                throw new InvalidCoordinatesException("Invalid coordinate: " + coordinate);
+                throw new InvalidCoordinatesException(INVALID_COORDINATE + coordinate);
             }
             return result;
         } catch (NumberFormatException e) {
-            throw new InvalidCoordinatesException("Invalid coordinate: " + coordinate);
+            throw new InvalidCoordinatesException(INVALID_COORDINATE + coordinate);
         }
     }
 
     private void readComma(String comma) throws InvalidValueException {
         if (!comma.equals(",")) {
-            throw new InvalidValueException(comma + " is not a comma.");
+            throw new InvalidValueException(comma + NOT_COMMA);
         }
     }
 
@@ -59,11 +63,11 @@ public class SudokuEntryReader {
         try {
             int result = Integer.valueOf(value);
             if (result < 1 || result > 9) {
-                throw new InvalidValueException("Invalid value: " + value);
+                throw new InvalidValueException(INVALID_VALUE + value);
             }
             return result;
         } catch (NumberFormatException e) {
-            throw new InvalidValueException("Invalid value: " + value);
+            throw new InvalidValueException(INVALID_VALUE + value);
         }
     }
 }

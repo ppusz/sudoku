@@ -1,10 +1,9 @@
 package name.pusz.sudoku.board;
 
+import name.pusz.sudoku.exception.InvalidValueException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Map;
 
 public class BoardTestSuite {
 
@@ -34,11 +33,11 @@ public class BoardTestSuite {
             }
         }
 
-        System.out.println(board);
+        System.out.println(board.getPrintForm());
     }
 
     @Test
-    public void testClone() throws Exception{
+    public void testClone() throws Exception {
         //Given
         board.getCells()[0][1].setValue(2);
         board.getCells()[0][7].setValue(3);
@@ -46,11 +45,11 @@ public class BoardTestSuite {
         board.getCells()[8][7].setValue(4);
         board.getCells()[6][6].setValue(9);
         board.getCells()[7][8].setValue(6);
-        System.out.println(board);
+        System.out.println(board.getPrintForm());
 
         //When
         Board clonedBoard = board.copy();
-        System.out.println(clonedBoard);
+        System.out.println(clonedBoard.getPrintForm());
 
         //Then
         for (int i = 0; i <= Board.MAX_INDEX; i++) {
@@ -63,7 +62,7 @@ public class BoardTestSuite {
     @Test
     public void testSetValueToCell() {
         //When
-        board.setValueToCell(3,4,5);
+        board.setValueToCell(3, 4, 5);
         Integer readValue = board.getCellValue(3, 4);
 
         //Then

@@ -1,4 +1,4 @@
-package name.pusz.sudoku.board;
+package name.pusz.sudoku.exception;
 
 public class InvalidCoordinatesException extends IndexOutOfBoundsException {
 

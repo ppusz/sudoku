@@ -1,9 +1,8 @@
 package name.pusz.sudoku.game;
 
 import name.pusz.sudoku.board.Coordinates;
-import name.pusz.sudoku.board.InvalidCoordinatesException;
-import name.pusz.sudoku.board.InvalidValueException;
-import name.pusz.sudoku.game.SudokuEntryReader;
+import name.pusz.sudoku.exception.InvalidCoordinatesException;
+import name.pusz.sudoku.exception.InvalidValueException;
 import org.junit.Assert;
 import org.junit.Test;
 
