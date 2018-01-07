@@ -95,7 +95,7 @@ public class Solver {
                     } else if (availableValuesCount == 1) {
                         board.setValueToCell(r, c, board.getCellAvailableValues(r, c).iterator().next());
                         solvedAnything = true;
-                        logger.debug(board.getCells()[r][c] + " has only 1 available value " + board.getCellValue(r, c) + ". Filling.");
+                        logger.debug("Cell(" + r + "," + c + ") has only 1 available value " + board.getCellValue(r, c) + ". Filling.");
                     }
                 }
             }
@@ -150,8 +150,8 @@ public class Solver {
                     if (!found) {
                         board.setValueToCell(cells[i].getCoordinates().getRow(), cells[i].getCoordinates().getColumn(), value);
                         solvedAnything = true;
-                        logger.debug(board.getCells()[cells[i].getCoordinates().getRow()][cells[i].getCoordinates().getColumn()] +
-                                " has available value " + value + " that isn't available for others. Filling.");
+                        logger.debug("Cell(" + cells[i].getCoordinates().getRow() + "," + cells[i].getCoordinates().getColumn() + ") " +
+                                "has available value " + value + " that isn't available for others. Filling.");
                         break;
                     }
                 }
