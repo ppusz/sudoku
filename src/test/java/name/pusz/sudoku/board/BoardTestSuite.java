@@ -25,7 +25,7 @@ public class BoardTestSuite {
     }
 
     @Test
-    public void testBoardToString() throws InvalidValueException {
+    public void testGetPrintForm() throws InvalidValueException {
         //Given
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -33,7 +33,8 @@ public class BoardTestSuite {
             }
         }
 
-        System.out.println(board.getPrintForm());
+        //Then
+        Assert.assertFalse(board.getPrintForm().isEmpty());
     }
 
     @Test

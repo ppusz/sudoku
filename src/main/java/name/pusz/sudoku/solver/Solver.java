@@ -1,9 +1,11 @@
 package name.pusz.sudoku.solver;
 
+import name.pusz.sudoku.SudokuRunner;
 import name.pusz.sudoku.board.Board;
 import name.pusz.sudoku.board.CellWithCoordinates;
 import name.pusz.sudoku.board.Coordinates;
 import name.pusz.sudoku.exception.CannotSolveException;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -12,6 +14,7 @@ import java.util.Set;
 
 public class Solver {
 
+    private static final Logger logger = Logger.getLogger(Solver.class);
     private final static String SOLUTION_FOUND = "Found solution:";
     private final static String NO_EMTY_CELLS_FOUND = "No empty cells found!";
 
@@ -24,12 +27,14 @@ public class Solver {
     public List<Board> solve() throws CannotSolveException {
         List<Board> solutions = new ArrayList<>();
 
+        logger.info("Trying solve current setup.");
         solveEvident(this.board);
         if (board.isSolved()) {
             System.out.println(SOLUTION_FOUND);
             System.out.println(board.getPrintForm());
             solutions.add(board);
         } else {
+            logger.info("No evident solution. Trying guessing.");
             Board backtrackBoard;
             Coordinates emptyCellCoordinates = board.findEmptyCell();
             if (emptyCellCoordinates != null) {
@@ -39,24 +44,30 @@ public class Solver {
                         board = board.copy();
 
                         board.setValueToCell(emptyCellCoordinates.getRow(), emptyCellCoordinates.getColumn(), guessValue);
+                        logger.info("Guessing value " + guessValue +
+                                " in row " + emptyCellCoordinates.getRow() + " and column " + emptyCellCoordinates.getColumn());
 
                         Solver solver = new Solver(board);
                         try {
+
                             List<Board> foundSolutions = solver.solve();
+                            logger.info("Guess successful, found solution(s).");
                             solutions.addAll(foundSolutions);
                         } catch (CannotSolveException e) {
+                            logger.info("No solutions found.");
                         }
 
                         board = backtrackBoard;
                     } catch (CloneNotSupportedException e) {
-                        System.out.println(e);
+                        logger.error(e);
                     }
                 }
             } else {
+                logger.info("All cells are filled.");
                 throw new CannotSolveException(NO_EMTY_CELLS_FOUND);
             }
         }
-
+        logger.debug("Leaving current solve branch level.");
         return solutions;
     }
 
@@ -79,10 +90,12 @@ public class Solver {
                 if (board.getCellValue(r, c) == null) {
                     int availableValuesCount = board.getCellAvailableValues(r, c).size();
                     if (availableValuesCount == 0) {
+                        logger.debug("Empty cell but no available possible value left");
                         throw new CannotSolveException();
                     } else if (availableValuesCount == 1) {
                         board.setValueToCell(r, c, board.getCellAvailableValues(r, c).iterator().next());
                         solvedAnything = true;
+                        logger.debug(board.getCells()[r][c] + " has only 1 available value " + board.getCellValue(r, c) + ". Filling.");
                     }
                 }
             }
@@ -137,6 +150,8 @@ public class Solver {
                     if (!found) {
                         board.setValueToCell(cells[i].getCoordinates().getRow(), cells[i].getCoordinates().getColumn(), value);
                         solvedAnything = true;
+                        logger.debug(board.getCells()[cells[i].getCoordinates().getRow()][cells[i].getCoordinates().getColumn()] +
+                                " has available value " + value + " that isn't available for others. Filling.");
                         break;
                     }
                 }
